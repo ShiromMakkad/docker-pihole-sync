@@ -1,3 +1,5 @@
+[![Docker Pulls](https://img.shields.io/docker/pulls/shirom/pihole-sync.svg)](https://hub.docker.com/repository/docker/shirom/pihole-sync)
+
 # docker-pihole-sync
 A Docker Container To Sync Two Piholes. 
 

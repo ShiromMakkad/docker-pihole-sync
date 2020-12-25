@@ -1,0 +1,41 @@
+name: CI
+
+# Controls when the action will run. 
+on:
+  # Triggers the workflow on push or pull request events but only for the master branch
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+# https://medium.com/swlh/using-github-actions-to-build-arm-based-docker-images-413a8d498ee
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    env:      
+      DOCKER_REGISTRY: index.docker.io      
+      DOCKER_IMAGE: shirom/pihole-sync
+      DOCKER_TAG: latest      
+      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
+      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
+      DOCKER_TARGET_PLATFORM: linux/amd64,linux/arm/v7    
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v2
+
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+      
+      - name: Docker Login
+        if: success()
+        run: |        
+          echo "${DOCKER_PASSWORD}" | docker login ${DOCKER_REGISTRY} --username "${DOCKER_USERNAME}" --password-stdin
+        
+      - name: Run BuildX
+        if: success()
+        run: docker buildx build --platform ${{ env.DOCKER_TARGET_PLATFORM }} --tag ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }} --file ./Dockerfile --output type=image,push=true .

@@ -7,4 +7,4 @@ RUN apt-get install inotify-tools -y
 
 ADD syncScript.sh /syncScript.sh
 
-ENTRYPOINT ["/syncScript.sh"]
+ENTRYPOINT ["/entryPoint.sh"]

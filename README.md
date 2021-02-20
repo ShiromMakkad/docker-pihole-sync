@@ -53,7 +53,7 @@ Volume | Function
 Variable | Function
 --- | --------
 `PIHOLECLIENTDIR` | This is the directory on the client that `/etc/pihole/` should be synced to. Assuming that the directory is remote, make sure that the client can be SSHed into without a password. See [this](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/) for a tutorial on SSH without a password. 
-`DNSMASQCLIENTDIR` | `PIHOLECLIENTDIR` | This is the directory on the client that `/etc/dnsmasq.d/` should be synced to.
+`DNSMASQCLIENTDIR` | This is the directory on the client that `/etc/dnsmasq.d/` should be synced to.
 
 ## Support Information
 - Shell access while the container is running: `docker exec -it pihole-sync /bin/bash`

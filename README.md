@@ -37,7 +37,8 @@ pihole-sync:
     container_name: pihole-sync
     volumes:
         - ~/.ssh:/root/.ssh/:ro
-        - /mnt/ext/pihole/pihole:/mnt/pihole
+        - /mnt/ext/pihole/etc-pihole:/mnt/pihole
+        - /mnt/ext/pihole/etc-dnsmasq:/mnt/dnsmasq
     environment:
         - CLIENTDIR="pi@192.168.0.16:/home/pi/pihole/pihole"
 ```
@@ -45,12 +46,14 @@ pihole-sync:
 Volume | Function 
 --- | -------- 
 `/root/.ssh/:ro` | If your client directory is on a remote computer, you need the ssh keys to access it without a password. This directory stores them. Your keys are in ~/.ssh by default. See [this](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/) for a tutorial on SSH without a password. The directory is set to read-only in the container.
-`/mnt/pihole` | This is the folder that is monitored and sychronized with the client directory. It should be set to the same as the /etc/pihole/ in the Pihole Docker container. See the compose file for details. 
+`/mnt/pihole` | This is the folder that is monitored and sychronized with the client directory. It should be set to the same as the /etc/pihole/ in the Pihole Docker container. See the compose file for details.
+`/mnt/dnsmasq` | This is the dnsmasq folder that is monitored and sychronized with the client directory. It should be set to the same as the /etc/dnsmasq.d/ in the Pihole Docker container. See the compose file for details.
 
 ### Environment Variables
 Variable | Function
 --- | --------
-`CLIENTDIR` | This is the directory on the client that should be synced to. Assuming that the directory is remote, make sure that the client can be SSHed into without a password. See [this](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/) for a tutorial on SSH without a password. 
+`PIHOLECLIENTDIR` | This is the directory on the client that `/etc/pihole/` should be synced to. Assuming that the directory is remote, make sure that the client can be SSHed into without a password. See [this](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/) for a tutorial on SSH without a password. 
+`DNSMASQCLIENTDIR` | `PIHOLECLIENTDIR` | This is the directory on the client that `/etc/dnsmasq.d/` should be synced to.
 
 ## Support Information
 - Shell access while the container is running: `docker exec -it pihole-sync /bin/bash`

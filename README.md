@@ -6,7 +6,7 @@ A Docker Container To Sync Two Piholes.
 ## Introduction
 A Pihole runs your entire network. If it goes down, your whole network goes down. If you have a family at home, they're going to be pretty annoyed that the wifi goes out everytime you want to do some maintainence. The only solution to this problem is to have a redundant pihole on your network, but you don't want to change your settings in two different places.
 
-This repo allows you to synchronize between two piholes where one is the master and one is the slave. I'll be adding support for more piholes in future. Just update one pihole and the rest automatically update.
+This repo allows you to synchronize between two piholes where one is the master and one is the slave. I'll be adding support for more piholes in future. Just update one pihole and the rest automatically update. It supports the `/etc/pihole/` and `/etc/dnsmasq.d/` directories, excluding `/etc/pihole/pihole-FTL.db` and `/etc/dnsmasq.d/01-pihole.conf` respectively, as these need to be independently managed.
 
 ## Why Docker PiHole Sync
 

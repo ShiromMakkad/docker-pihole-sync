@@ -36,7 +36,7 @@ pihole-sync:
     image: shirom/pihole-sync
     container_name: pihole-sync
     volumes:
-        - ~/.ssh:/root/.ssh/:ro
+        - ~/.ssh/id_ed25519:/root/.ssh/id_ed25519:ro
         - /mnt/ext/pihole/etc-pihole:/mnt/pihole
         - /mnt/ext/pihole/etc-dnsmasq:/mnt/dnsmasq
     environment:
@@ -45,7 +45,7 @@ pihole-sync:
 ### Volumes
 Volume | Function 
 --- | -------- 
-`/root/.ssh/:ro` | If your client directory is on a remote computer, you need the ssh keys to access it without a password. This directory stores them. Your keys are in ~/.ssh by default. See [this](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/) for a tutorial on SSH without a password. The directory is set to read-only in the container.
+`/root/.ssh/id_ed25519:ro` | If your client directory is on a remote computer, you need the ssh keys to access it without a password. This directory stores them. Your keys are in ~/.ssh by default. See [this](https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/) for a tutorial on SSH without a password. The directory is set to read-only in the container.
 `/mnt/pihole` | This is the folder that is monitored and sychronized with the client directory. It should be set to the same as the /etc/pihole/ in the Pihole Docker container. See the compose file for details.
 `/mnt/dnsmasq` | This is the dnsmasq folder that is monitored and sychronized with the client directory. It should be set to the same as the /etc/dnsmasq.d/ in the Pihole Docker container. See the compose file for details.
 

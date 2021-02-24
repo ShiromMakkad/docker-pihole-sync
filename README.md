@@ -13,7 +13,7 @@ This repo allows you to synchronize between two piholes where one is the master 
 There are other options out there such as [pihole-cloudsync](https://github.com/stevejenkins/pihole-cloudsync) and [pihole-sync](https://github.com/simonwhitaker/pihole-sync), but this repo offers 4 unique features:
 
 ### 1. Docker Support
-If you have a project based on docker, it doesn't make sense to have a single sync script running outside of docker. Your whole project should be started with docker-compose up and ended on docker-compose down (or a different command on swarm), and you can do that with this repo. Additionally, installing things like python or git inside a container is difficult because the container will be destroyed on shutdown. You could create volumes for the changed folders, but that's a hacky, difficult to maintain solution.  
+If you have a project based on docker, it doesn't make sense to have a single sync script running outside of docker. Your whole project should be started with docker-compose up and ended on docker-compose down.
 ### 2. Continuous Synchronization
 The code will monitor the selected the folder for changes and immediately update the other Pihole. Great for updating the whitelist and seeing the website work immediately.
 ### 3. All Settings Are Transferred
@@ -65,7 +65,6 @@ Assuming the above directories are on a remote host, make sure that the client c
 ## Building Locally
 If you want to make local modifications to this image for development purposes or just to customize the logic:
 ```
-git clone https://github.com/ShiromMakkad/docker-pihole-sync.git
-cd docker-pihole-sync
-docker build -t shirom/docker-pihole-sync .
+docker buildx build --platform linux/amd64,linux/arm/v7 --tag shirom/pihole-sync --output type=image,push=false .
 ```
+For multi-arch builds, make sure you have [QEMU](https://medium.com/@artur.klauser/building-multi-architecture-docker-images-with-buildx-27d80f7e2408) installed

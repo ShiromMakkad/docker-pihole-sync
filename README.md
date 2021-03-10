@@ -76,10 +76,10 @@ pihole-sync-receiver:
 ### Volumes
 Volume | Function 
 --- | -------- 
-`/root` | This is the directory in which the SSH key file and the known hosts file will be stored, so it needs to be persistent.<br />**Required on both nodes.**
-`/etc/ssh` | This is the directory in which the SSH server key files and the SSH daemon config will be stored, so it needs to be persistent.<br />**Required on the `sender` node only.**
-`/mnt/etc-pihole` | This is the `/etc/pihole/` directory the Pi-Hole container writes to on the host filesystem. It is monitored and sychronized with the remote client directory. It should be set to the same as the /etc/pihole/ in the Pihole Docker container. See the compose file for details.<br />**Required on both nodes. Can be mounted read-only on the `sender` node.**
-`/mnt/etc-dnsmasq.d` | This is the `/etc/dnsmasq.d/` directory the Pi-Hole container writes to on the host filesystem. It is monitored and sychronized with the remote client directory. It should be set to the same as the /etc/dnsmasq.d/ in the Pihole Docker container. See the compose file for details.<br />**Required on both nodes. Can be mounted read-only on the `sender` node.**
+`/mnt/ext/piholesync/root` | This is the directory in which the SSH key file and the known hosts file will be stored, so it needs to be persistent.<br />**Required on both nodes.**
+`/mnt/ext/piholesync/etc-ssh` | This is the directory in which the SSH server key files and the SSH daemon config will be stored, so it needs to be persistent. Can be a volume rather than a bind path, if you prefer.<br />**Required on the `sender` node only.**
+`/mnt/ext/pihole/etc-pihole` | This is the `/etc/pihole/` directory the Pi-Hole container writes to on the host filesystem. It is monitored and sychronized with the remote client directory. It should be set to the same as the /etc/pihole/ in the Pihole Docker container. See the compose file for details.<br />**Required on both nodes. Can be mounted read-only on the `sender` node.**
+`/mnt/ext/pihole/etc-dnsmasq.d` | This is the `/etc/dnsmasq.d/` directory the Pi-Hole container writes to on the host filesystem. It is monitored and sychronized with the remote client directory. It should be set to the same as the /etc/dnsmasq.d/ in the Pihole Docker container. See the compose file for details.<br />**Required on both nodes. Can be mounted read-only on the `sender` node.**
 
 ### Environment Variables
 Variable | Function

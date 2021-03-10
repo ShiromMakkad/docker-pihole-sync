@@ -40,7 +40,7 @@ pihole:
     image: pihole/pihole:latest
     volumes:
         - /mnt/ext/pihole/etc-pihole:/etc/pihole
-        - /mnt/ext/pihole/etc-dnsmasq-d:/etc/dnsmasq.d
+        - /mnt/ext/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
     rest of pihole config...
 
 pihole-sync-sender:
@@ -63,7 +63,7 @@ pihole:
     image: pihole/pihole:latest
     volumes:
         - /mnt/ext/pihole/etc-pihole:/etc/pihole
-        - /mnt/ext/pihole/etc-dnsmasq-d:/etc/dnsmasq.d
+        - /mnt/ext/pihole/etc-dnsmasq.d:/etc/dnsmasq.d
     rest of pihole config...
 
 pihole-sync-receiver:

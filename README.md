@@ -56,7 +56,7 @@ pihole-sync-sender:
         - "REM_SSH_PORT=22222"
 ```
 
-This is the `docker-compose.yml` for the sender/master Pi-Hole:
+This is the `docker-compose.yml` for the receiver/secondary Pi-Hole:
 
 ```yaml
 pihole-sync-receiver:

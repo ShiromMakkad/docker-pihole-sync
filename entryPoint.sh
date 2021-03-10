@@ -60,7 +60,15 @@ if [[ "${NODE,,}" == "sender" ]]; then
         fi
     fi
     rsync -a -P --exclude '01-pihole.conf' /mnt/etc-dnsmasq.d/ -e "ssh -p ${REM_SSH_PORT}" ${REM_USER}@${REM_HOST}:/mnt/etc-dnsmasq.d/ --delete
-    rsync -a -P --exclude 'setupVars.conf' --exclude 'setupVars.conf.update.bak' --exclude 'pihole-FTL.db' -e "ssh -p ${REM_SSH_PORT}" /mnt/etc-pihole/ ${REM_USER}@${REM_HOST}:/mnt/etc-pihole/ --delete
+    if [[ "${?}" -ne "0" ]]; then
+        echo "Unable to initiate dnsmasq.d rsync. Is the receiver online?"
+        exit 4
+    fi
+    rsync -a -P --exclude 'localbranches' --exclude 'localversions' --exclude 'setupVars.conf' --exclude 'setupVars.conf.update.bak' --exclude 'pihole-FTL.db' -e "ssh -p ${REM_SSH_PORT}" /mnt/etc-pihole/ ${REM_USER}@${REM_HOST}:/mnt/etc-pihole/ --delete
+    if [[ "${?}" -ne "0" ]]; then
+        echo "Unable to initiate dnsmasq.d rsync. Is the receiver online?"
+        exit 5
+    fi
     chmod +x /sync-dnsmasq.sh /sync-pihole.sh
     ( /sync-dnsmasq.sh ) &
     /sync-pihole.sh
@@ -71,18 +79,18 @@ if [[ "${NODE,,}" == "receiver" ]]; then
         echo "Please define an /etc/ssh config path."
         echo "This should be a physical path, such as:"
         echo "-v \"~/piholesync/etc-ssh:/etc/ssh\""
-        exit 3
+        exit 6
     fi
     if ! mount | grep -q "/root"; then
         echo "Please define a root config path."
         echo "This should be a physical path, such as:"
         echo "-v \"~/piholesync/root:/root\""
-        exit 4
+        exit 7
     fi
     if ! [[ -e "/root/.ssh/authorized_keys" ]]; then
         echo "Please obtain the 'authorized_keys' file from the sender,"
         echo "and add it at your root/.ssh/authorized_keys path"
-        exit 5
+        exit 8
     fi
     sshKeyArr=("ssh_host_dsa_key" "ssh_host_dsa_key.pub" "ssh_host_ecdsa_key" "ssh_host_ecdsa_key.pub" "ssh_host_ed25519_key" "ssh_host_ed25519_key.pub" "ssh_host_rsa_key" "ssh_host_rsa_key.pub")
     for i in "${sshKeyArr[@]}"; do
@@ -91,8 +99,12 @@ if [[ "${NODE,,}" == "receiver" ]]; then
         fi
     done
     mv /sshd_config /etc/ssh/sshd_config
+    # We can't SSH into the root user if it doesn't have a password set
+    # Set a random 36 character string as the password
     rootPass="$(date +%s | sha256sum | base64 | head -c 36)"
     echo "root:${rootPass}" | chpasswd
+    # Ensure permissions are correct on the root directory, or it won't let
+    # us rsync/ssh in as the root user
     chmod 700 /root
     chmod 700 /root/.ssh
     chmod 600 /root/.ssh/authorized_keys

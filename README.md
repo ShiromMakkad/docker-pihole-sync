@@ -59,6 +59,13 @@ pihole-sync-sender:
 This is the `docker-compose.yml` for the receiver/secondary Pi-Hole:
 
 ```yaml
+pihole:
+    image: pihole/pihole:latest
+    volumes:
+        - /mnt/ext/pihole/etc-pihole:/mnt/etc-pihole
+        - /mnt/ext/pihole/etc-dnsmasq-d:/mnt/etc-dnsmasq.d
+    rest of pihole config...
+
 pihole-sync-receiver:
     image: shirom/pihole-sync:latest
     container_name: pihole-sync-receiver

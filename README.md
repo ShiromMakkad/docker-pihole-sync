@@ -77,21 +77,29 @@ pihole-sync-receiver:
 Volume | Function 
 --- | -------- 
 `/root` | This is the directory in which the SSH key file and the known hosts file will be stored, so it needs to be persistent.
-`/etc/ssh` | This is the directory in which the SSH server key files and the SSH daemon config will be stored, so it needs to be persistent. This directory is only necessary on the `receiver` node, you can omit it on the `sender` node.
-`/mnt/etc-pihole` | This is the `/etc/pihole/` directory the Pi-Hole container writes to on the host filesystem. It is monitored and sychronized with the remote client directory. It should be set to the same as the /etc/pihole/ in the Pihole Docker container. See the compose file for details. For sending purposes, it can be mounted as read-only. It should not be read-only on the receiver.
-`/mnt/etc-dnsmasq.d` | This is the `/etc/dnsmasq.d/` directory the Pi-Hole container writes to on the host filesystem. It is monitored and sychronized with the remote client directory. It should be set to the same as the /etc/dnsmasq.d/ in the Pihole Docker container. See the compose file for details. For sending purposes, it can be mounted as read-only. It should not be read-only on the receiver.
+**Required on both nodes.**
+`/etc/ssh` | This is the directory in which the SSH server key files and the SSH daemon config will be stored, so it needs to be persistent. 
+**Required on the `sender` node only.**
+`/mnt/etc-pihole` | This is the `/etc/pihole/` directory the Pi-Hole container writes to on the host filesystem. It is monitored and sychronized with the remote client directory. It should be set to the same as the /etc/pihole/ in the Pihole Docker container. See the compose file for details. 
+**Required on both nodes. Can be mounted read-only on the `sender` node.**
+`/mnt/etc-dnsmasq.d` | This is the `/etc/dnsmasq.d/` directory the Pi-Hole container writes to on the host filesystem. It is monitored and sychronized with the remote client directory. It should be set to the same as the /etc/dnsmasq.d/ in the Pihole Docker container. See the compose file for details.
+**Required on both nodes. Can be mounted read-only on the `sender` node.**
 
 ### Environment Variables
 Variable | Function
 --- | --------
-`NODE` | This is where you should define if the container is the `sender` or the `receiver`. **Required on both nodes.**
-`REM_HOST` | This is the IP address (or FQDN/Hostname) of the remote Pi that we're syncting to. **Required on the `sender` node only.**
-`REM_SSH_PORT` | This is the non-standard SSH port that should be exposed on the container. Default of 22222 is probably fine. However, if you change this on the `sender` node, be sure to change the exposed port forward on the `receiver` node. **Required on the `sender` node only.**
+`NODE` | This is where you should define if the container is the `sender` or the `receiver`.
+**Required on both nodes.**
+`REM_HOST` | This is the IP address (or FQDN/Hostname) of the remote Pi that we're syncting to.
+**Required on the `sender` node only.**
+`REM_SSH_PORT` | This is the non-standard SSH port that should be exposed on the container. Default of 22222 is probably fine. However, if you change this on the `sender` node, be sure to change the exposed port forward on the `receiver` node.
+**Required on the `sender` node only.**
 
 ### Ports
 Port | Function
 --- | --------
-`22222` | This is the port you want to expose for rsync/ssh. Your host is likely using 22 for SSH already, so it should be a non-standard port. The default of 22222 is probably fine. However, if you change this on the `receiver` node, be sure to change the `REM_SSH_PORT` on the `sender` node. **Required on the `receiver` node only.**
+`22222` | This is the port you want to expose for rsync/ssh. Your host is likely using 22 for SSH already, so it should be a non-standard port. The default of 22222 is probably fine. However, if you change this on the `receiver` node, be sure to change the `REM_SSH_PORT` on the `sender` node.
+**Required on the `receiver` node only.**
 
 ## Support Information
 - Shell access while the container is running: `docker exec -it pihole-sync /bin/bash`

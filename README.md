@@ -39,8 +39,8 @@ This is the `docker-compose.yml` for the sender/master Pi-Hole:
 pihole:
     image: pihole/pihole:latest
     volumes:
-        - /mnt/ext/pihole/etc-pihole:/mnt/etc-pihole
-        - /mnt/ext/pihole/etc-dnsmasq-d:/mnt/etc-dnsmasq.d
+        - /mnt/ext/pihole/etc-pihole:/etc/pihole
+        - /mnt/ext/pihole/etc-dnsmasq-d:/etc/dnsmasq.d
     rest of pihole config...
 
 pihole-sync-sender:
@@ -62,8 +62,8 @@ This is the `docker-compose.yml` for the receiver/secondary Pi-Hole:
 pihole:
     image: pihole/pihole:latest
     volumes:
-        - /mnt/ext/pihole/etc-pihole:/mnt/etc-pihole
-        - /mnt/ext/pihole/etc-dnsmasq-d:/mnt/etc-dnsmasq.d
+        - /mnt/ext/pihole/etc-pihole:/etc/pihole
+        - /mnt/ext/pihole/etc-dnsmasq-d:/etc/dnsmasq.d
     rest of pihole config...
 
 pihole-sync-receiver:

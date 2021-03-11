@@ -14,6 +14,8 @@ Because Pi-Hole Docker utilizes a UID/GID of 0:0 and 999:999, this presents a un
 
 By utilizing a `sender` container node on one Pi and a `receiver` container node on the other Pi, we're able to solve the issue of securely opening a root user to SSH, by having the `sender` container node SSH into the `receiver` container node, rather than the host. If the container were to be infiltrated, the infiltrater would have access to root only in the receiver container, and its mounted volumes.
 
+**NOTE**: The sending and recieving container are only necessary for solving permissions issues without giving root access to the recieving container. If you have no problem giving root access to the recieving end (at the cost of security), or your recieving Pihole is not running in Docker, you don't need to use the recieving container. 
+
 ## Why Docker PiHole Sync
 
 There are other options out there such as [pihole-cloudsync](https://github.com/stevejenkins/pihole-cloudsync) and [pihole-sync](https://github.com/simonwhitaker/pihole-sync), but this repo offers 4 unique features:
@@ -27,8 +29,7 @@ Not only are your lists transferred, but all your other settings are transferred
 ### 4. Keeps Your Github Clean
 Unlike [pihole-cloudsync](https://github.com/stevejenkins/pihole-cloudsync), we don't require a repository to sync to. This means that your Piholes don't have to connect to the internet, and you don't have a large number of commits going into a dummy repository. This is especially nice if you show private contributions on your profile and don't want a huge number of changes being published to your Github profile
 
-#### NOTE: 
-The 'sender' Pihole must be able to SSH into the 'receiver' Pihole. If that's a restriction (maybe your Piholes are behind different VPNs), use [pihole-cloudsync](https://github.com/stevejenkins/pihole-cloudsync). 
+**NOTE**: The 'sender' Pihole must be able to SSH into the 'receiver' Pihole. If that's a restriction (maybe your Piholes are behind different VPNs), use [pihole-cloudsync](https://github.com/stevejenkins/pihole-cloudsync). 
 
 ## Setup
 ### docker-compose.yml

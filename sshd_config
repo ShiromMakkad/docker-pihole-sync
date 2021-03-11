@@ -1,0 +1,27 @@
+Port 22
+AddressFamily any
+ListenAddress 0.0.0.0
+ListenAddress ::
+SyslogFacility AUTH
+LogLevel INFO
+LoginGraceTime 30s
+PermitRootLogin yes
+StrictModes yes
+MaxAuthTries 2
+MaxSessions 4
+PubkeyAuthentication yes
+AuthorizedKeysFile .ssh/authorized_keys
+PasswordAuthentication no
+PermitEmptyPasswords no
+ChallengeResponseAuthentication no
+AllowAgentForwarding yes
+AllowTcpForwarding yes
+GatewayPorts clientspecified
+X11Forwarding no
+PermitTTY yes
+PrintMotd no
+TCPKeepAlive yes
+PermitUserEnvironment no
+Compression delayed
+MaxStartups 10:20:30
+Subsystem sftp /usr/lib/openssh/sftp-server

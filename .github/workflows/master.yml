@@ -1,44 +1,41 @@
 name: DockerHub-Push
 
-# Controls when the action will run. 
 on:
-  # Triggers the workflow on push or pull request events but only for the master branch
   push:
     branches: [ master ]
+    paths-ignore: [ README.md ]
   pull_request:
     branches: [ master ]
+    paths-ignore: [ README.md ]
 
   # Allows you to run this workflow manually from the Actions tab
   workflow_dispatch:
 
-# https://medium.com/swlh/using-github-actions-to-build-arm-based-docker-images-413a8d498ee
+# https://github.com/docker/build-push-action/blob/master/docs/advanced/multi-platform.md
 jobs:
-  build:
+  docker:
     runs-on: ubuntu-latest
-    env:      
-      DOCKER_REGISTRY: index.docker.io      
-      DOCKER_IMAGE: shirom/pihole-sync
-      DOCKER_TAG: latest      
-      DOCKER_USERNAME: ${{ secrets.DOCKER_USERNAME }}
-      DOCKER_PASSWORD: ${{ secrets.DOCKER_PASSWORD }}  
-      DOCKER_TARGET_PLATFORM: linux/amd64,linux/arm/v7    
-
     steps:
-      - name: Checkout
+      -
+        name: Checkout
         uses: actions/checkout@v2
-        
-      - name: Set up QEMU
+      -
+        name: Set up QEMU
         uses: docker/setup-qemu-action@v1
-
-      - name: Set up Docker Buildx
-        id: buildx
+      -
+        name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v1
-      
-      - name: Docker Login
-        if: success()
-        run: |        
-          echo "${DOCKER_PASSWORD}" | docker login ${DOCKER_REGISTRY} --username "${DOCKER_USERNAME}" --password-stdin
-        
-      - name: Run BuildX
-        if: success()
-        run: docker buildx build --platform ${{ env.DOCKER_TARGET_PLATFORM }} --tag ${{ env.DOCKER_REGISTRY }}/${{ env.DOCKER_IMAGE }}:${{ env.DOCKER_TAG }} --file ./Dockerfile --output type=image,push=true .
+      -
+        name: Login to DockerHub
+        uses: docker/login-action@v1 
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      -
+        name: Build and push
+        uses: docker/build-push-action@v2
+        with:
+          context: .
+          platforms: linux/amd64,linux/arm/v7
+          push: true
+          tags: shirom/pihole-sync:latest

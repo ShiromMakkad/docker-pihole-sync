@@ -7,12 +7,12 @@ elif [[ "${NODE,,}" == "sender" ]]; then
     fail="0"
 elif [[ "${NODE,,}" == "receiver" ]]; then
     fail="0"
-elif ! mount | grep -q "/mnt/etc-pihole"; then
+elif ! grep -q "/mnt/etc-pihole" /etc/mtab; then
     echo "Please define a /mnt/etc-pihole config path."
     echo "This should be a physical path, such as:"
     echo "-v \"~/etc-pihole:/mnt/etc-pihole\""
     fail="1"
-elif ! mount | grep -q "/mnt/etc-dnsmasq.d"; then
+elif ! grep -q "/mnt/etc-dnsmasq.d" /etc/mtab; then
     echo "Please define a /mnt/etc-dnsmasq.d config path."
     echo "This should be a physical path, such as:"
     echo "-v \"~/etc-dnsmasq.d:/mnt/etc-dnsmasq.d\""
@@ -24,7 +24,7 @@ if [[ "${fail}" -eq "1" ]]; then
 fi
 
 if [[ "${NODE,,}" == "sender" ]]; then
-    if ! mount | grep -q "/root"; then
+    if ! grep -q "/root" /etc/mtab; then
         echo "Please define a root config path."
         echo "This should be a physical path, such as:"
         echo "-v \"~/piholesync/root:/root\""
@@ -75,13 +75,13 @@ if [[ "${NODE,,}" == "sender" ]]; then
 fi
 
 if [[ "${NODE,,}" == "receiver" ]]; then
-    if ! mount | grep -q "/etc/ssh"; then
+    if ! grep -q "/etc/ssh" /etc/mtab; then
         echo "Please define an /etc/ssh config path."
         echo "This should be a physical path, such as:"
         echo "-v \"~/piholesync/etc-ssh:/etc/ssh\""
         exit 6
     fi
-    if ! mount | grep -q "/root"; then
+    if ! grep -q "/root" /etc/mtab; then
         echo "Please define a root config path."
         echo "This should be a physical path, such as:"
         echo "-v \"~/piholesync/root:/root\""

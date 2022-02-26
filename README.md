@@ -108,6 +108,6 @@ Port | Function
 ## Building Locally
 If you want to make local modifications to this image for development purposes or just to customize the logic:
 ```
-docker buildx build --platform linux/amd64,linux/arm/v7 --tag shirom/pihole-sync --output type=image,push=false .
+docker buildx build --platform linux/amd64,linux/arm64,linux/arm/v6,linux/arm/v7 --tag shirom/pihole-sync --output type=image,push=false .
 ```
 For multi-arch builds, make sure you have [QEMU](https://medium.com/@artur.klauser/building-multi-architecture-docker-images-with-buildx-27d80f7e2408) installed

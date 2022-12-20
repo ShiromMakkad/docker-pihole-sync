@@ -104,6 +104,7 @@ Port | Function
 ## Support Information
 - Shell access while the container is running: `docker exec -it pihole-sync /bin/bash`
 - Logs: `docker logs pihole-sync`
+- Note the SSH-key instructions given in the log of the sender, these are only given once.
 
 ## Building Locally
 If you want to make local modifications to this image for development purposes or just to customize the logic:

@@ -64,7 +64,7 @@ if [[ "${NODE,,}" == "sender" ]]; then
         echo "Unable to initiate dnsmasq.d rsync. Is the receiver online?"
         exit 4
     fi
-    rsync -a -P --exclude 'localbranches' --exclude 'localversions' --exclude 'setupVars.conf' --exclude 'setupVars.conf.update.bak' --exclude 'pihole-FTL.db' -e "ssh -p ${REM_SSH_PORT}" /mnt/etc-pihole/ root@${REM_HOST}:/mnt/etc-pihole/ --delete
+    rsync -a -P --exclude 'install.log' --exclude 'pihole-FTL.conf' --exclude 'versions' --exclude 'dhcp.leases' --exclude 'setupVars.conf' --exclude 'setupVars.conf.update.bak' --exclude 'pihole-FTL.db' -e "ssh -p ${REM_SSH_PORT}" /mnt/etc-pihole/ root@${REM_HOST}:/mnt/etc-pihole/ --delete
     if [[ "${?}" -ne "0" ]]; then
         echo "Unable to initiate dnsmasq.d rsync. Is the receiver online?"
         exit 5

@@ -112,7 +112,8 @@ Port | Function
 
     Then you would create a file at:
         /docker/config/piholesync/root/.ssh/authorized_keys"
-
+    
+    The SSH-key instructions are given in the log of the sender, these are only given once.
     Copy/paste the contents between the ##### markers into that authorized_keys file:"
 
         ####### COPY BELOW THIS LINE, BUT NOT THIS LINE ########"

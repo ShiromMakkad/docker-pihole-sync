@@ -105,14 +105,20 @@ Port | Function
 - Shell access while the container is running: `docker exec -it pihole-sync /bin/bash`
 - Logs: `docker logs pihole-sync`
 - Note the SSH-key instructions:
-
+    
+    **Receiver node**
+    
     On the receiver node, create an authorized_keys file in the config directory
     For example, if your 'config' volume mount on the receiver is:
         /docker/config/piholesync/root:/root"
 
     Then you would create a file at:
         /docker/config/piholesync/root/.ssh/authorized_keys"
-
+    
+    **Sender node**
+    
+    The SSH-key instructions are given in the log of the sender, these are only given once.
+    
     Copy/paste the contents between the ##### markers into that authorized_keys file:"
 
         ####### COPY BELOW THIS LINE, BUT NOT THIS LINE ########"
